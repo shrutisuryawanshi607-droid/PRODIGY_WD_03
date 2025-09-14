@@ -62,48 +62,5 @@ function makeMove(index, player) {
   cells[index].textContent = player;
 }
 
-// Computer AI move (random empty cell)
-function computerMove() {
-  if (!isGameActive) return;
-  const emptyIndices = board.map((val, idx) => val === "" ? idx : null).filter(idx => idx !== null);
 
-  if (emptyIndices.length === 0) return;
 
-  const randomIndex = emptyIndices[Math.floor(Math.random() * emptyIndices.length)];
-  makeMove(randomIndex, computerPlayer);
-
-  if (checkWinner(computerPlayer)) {
-    endGame(${computerPlayer} wins!);
-  } else if (isDraw()) {
-    endGame("Draw!");
-  } else {
-    currentPlayer = humanPlayer;
-    titleHeader.textContent = Turn: ${currentPlayer};
-  }
-}
-
-// Check winner
-function checkWinner(player) {
-  return winningCombinations.some(combo => combo.every(index => board[index] === player));
-}
-
-function isDraw() {
-  return board.every(cell => cell !== "");
-}
-
-function endGame(message) {
-  titleHeader.textContent = message;
-  isGameActive = false;
-  restartBtn.style.display = "block";
-}
-
-// Restart game
-restartBtn.addEventListener("click", () => {
-  board.fill("");
-  cells.forEach(cell => cell.textContent = "");
-  isGameActive = false;
-  titleHeader.textContent = "Choose";
-  restartBtn.style.display = "none";
-  xPlayerDisplay.classList.remove("player-active");
-  oPlayerDisplay.classList.remove("player-active");
-});
